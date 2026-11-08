@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:index_blend_view/src/page_controller_index.dart';
 
 /// A widget that blends between neighboring items, driven by a fractional
 /// index.
@@ -25,6 +26,27 @@ import 'package:flutter/widgets.dart';
 ///   index: tabController.animation!,
 ///   itemCount: images.length,
 ///   itemBuilder: (context, index) => Image.asset(images[index]),
+/// )
+/// ```
+///
+/// ## Following a page view
+///
+/// Use [IndexBlendView.pageView] to blend in step with a [PageView]:
+///
+/// ```dart
+/// Stack(
+///   children: [
+///     IndexBlendView.pageView(
+///       controller: pageController,
+///       itemCount: backgrounds.length,
+///       itemBuilder: (context, index) => backgrounds[index],
+///     ),
+///     PageView.builder(
+///       controller: pageController,
+///       itemCount: cards.length,
+///       itemBuilder: (context, index) => cards[index],
+///     ),
+///   ],
 /// )
 /// ```
 ///
@@ -61,6 +83,29 @@ class IndexBlendView extends StatefulWidget {
     this.layoutBuilder = AnimatedSwitcher.defaultLayoutBuilder,
     super.key,
   }) : assert(
+         itemCount == null || itemCount >= 0,
+         'IndexBlendView.itemCount must not be negative, but its value was '
+         '$itemCount.',
+       );
+
+  /// Creates a widget that blends between neighboring items, driven by the
+  /// page of the page view attached to [controller].
+  ///
+  /// Before a page view attaches and lays out, the index is the controller's
+  /// [PageController.initialPage]. While more than one page view is attached,
+  /// as during a route transition, it is the page of the one that attached
+  /// first.
+  ///
+  /// The widget doesn't dispose of [controller].
+  IndexBlendView.pageView({
+    required PageController controller,
+    required this.itemBuilder,
+    this.itemCount,
+    this.transitionBuilder = AnimatedSwitcher.defaultTransitionBuilder,
+    this.layoutBuilder = AnimatedSwitcher.defaultLayoutBuilder,
+    super.key,
+  }) : index = PageControllerIndex(controller),
+       assert(
          itemCount == null || itemCount >= 0,
          'IndexBlendView.itemCount must not be negative, but its value was '
          '$itemCount.',

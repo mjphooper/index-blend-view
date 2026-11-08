@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:index_blend_view/index_blend_view.dart';
+import 'package:index_blend_view/src/page_controller_index.dart';
 
 const _items = ['a', 'b', 'c', 'd', 'e', 'f'];
 
@@ -10,6 +11,31 @@ void main() {
     test('throws an assertion error given a negative item count', () {
       IndexBlendView build() => IndexBlendView(
         index: kAlwaysDismissedAnimation,
+        itemCount: -1,
+        itemBuilder: (context, index) => const SizedBox(),
+      );
+
+      expect(build, throwsAssertionError);
+    });
+
+    test('pageView wraps the controller in a PageControllerIndex', () {
+      final controller = PageController();
+      addTearDown(controller.dispose);
+
+      final view = IndexBlendView.pageView(
+        controller: controller,
+        itemBuilder: (context, index) => const SizedBox(),
+      );
+
+      expect(view.index, PageControllerIndex(controller));
+    });
+
+    test('pageView throws an assertion error given a negative item count', () {
+      final controller = PageController();
+      addTearDown(controller.dispose);
+
+      IndexBlendView build() => IndexBlendView.pageView(
+        controller: controller,
         itemCount: -1,
         itemBuilder: (context, index) => const SizedBox(),
       );
