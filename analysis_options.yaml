@@ -1,4 +1,6 @@
-include: package:flutter_lints/flutter.yaml
+include:
+  - package:flutter_lints/flutter.yaml
+  - package:very_good_analysis/analysis_options.yaml
 
 analyzer:
   exclude:
@@ -9,6 +11,10 @@ analyzer:
     - windows/**
     - macos/**
     - linux/**
+
+linter:
+  rules:
+    prefer_int_literals: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
