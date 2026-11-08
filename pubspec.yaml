@@ -1,7 +1,7 @@
-name: indexed_blend_view
-description: Blends between neighbouring items in a list, driven by a fractional index.
+name: index_blend_view
+description: Blends between neighboring items in a list, driven by a fractional index.
 version: 0.0.1
-repository: https://github.com/mjphooper/indexed-blend-view
+repository: https://github.com/mjphooper/index-blend-view
 
 environment:
   sdk: ^3.10.0
