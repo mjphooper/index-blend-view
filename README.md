@@ -1,3 +1,3 @@
-# indexed_blend_view
+# index_blend_view
 
-Blends between neighbouring items in a list, driven by a fractional index.
+Blends between neighboring items in a list, driven by a fractional index.
